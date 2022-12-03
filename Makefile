@@ -6,6 +6,9 @@ LD65 := ld65
 #Compiler and linker configuration
 CONFIG := nrom_32k_vert.cfg
 
+#Emulator
+EMU := nes
+
 #Folders
 CHRS 		:= chrs
 LIBS 		:= libs
@@ -34,7 +37,7 @@ compile: $(SOURCEDIR)/*.c $(INCLUDE)/*.h
 	$(CC65) -Oirs $< -o $(BUILD)/$(NAME).s
 
 run:
-	@nes $(BUILD)/$(NAME).nes
+	@$(EMU) $(BUILD)/$(NAME).nes
 
 clean:
 	@clear

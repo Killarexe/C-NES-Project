@@ -1,37 +1,28 @@
+/*
+A simple "hello world" example.
+Set the screen background color and palette colors.
+Then write a message to the nametable.
+Finally, turn on the PPU to display video.
+*/
+
 #include "../include/neslib.h"
-#include "../include/nesdoug.h"
 
-#define BLACK 0x0F
-#define WHITE 0x30
-#define DARK_GRAY 0x00
-#define LIGHT_GRAY 0x10
+// main function, run after console reset
+void main(void) {
 
-#pragma bss-name(push, "ZEROPAGE")
+  // set palette colors
+  pal_col(0,0x02);	// set screen to dark blue
+  pal_col(1,0x14);	// fuchsia
+  pal_col(2,0x20);	// grey
+  pal_col(3,0x30);	// white
 
-unsigned char i;
-const unsigned char text[] = "Hello, world!";
+  // write text to name table
+  vram_adr(NTADR_A(2,2));		// set address
+  vram_write("Hello, world!", 13);	// write bytes to video RAM
 
-const unsigned char palette[] = {
-    BLACK, DARK_GRAY, LIGHT_GRAY, WHITE,
-    0, 0, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0, 0
-};
+  // enable PPU rendering (turn on screen)
+  ppu_on_all();
 
-void main(void){
-    ppu_off();
-    pal_bg(palette);
-    vram_adr(NTADR_A(10, 14));
-
-    i = 0;
-    while(text[i]){
-        vram_put(text[i]);
-        i++;
-    }
-
-    ppu_on_all();
-
-    while(1){
-
-    }
+  // infinite loop
+  while (1) ;
 }
